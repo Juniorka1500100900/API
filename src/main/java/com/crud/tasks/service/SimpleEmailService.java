@@ -19,9 +19,6 @@ public class SimpleEmailService {
         log.info("Starting email preparation...");
         try {
             SimpleMailMessage mailMessage = createMailMessage(mail);
-            if (mail.getToCc() != null && !mail.getToCc().isEmpty()) {
-                mailMessage.setCc(mail.getToCc());
-            }
             javaMailSender.send(mailMessage);
             log.info("Email has been sent.");
         } catch (MailException e) {
@@ -34,6 +31,11 @@ public class SimpleEmailService {
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
+
+        if (mail.getToCc() != null && !mail.getToCc().isEmpty()) {
+            mailMessage.setCc(mail.getToCc());
+        }
+
         return mailMessage;
     }
 }
