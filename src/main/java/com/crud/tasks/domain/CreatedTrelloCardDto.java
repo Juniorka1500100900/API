@@ -4,13 +4,10 @@ package com.crud.tasks.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.net.URI;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreatedTrelloCard {
+public class CreatedTrelloCardDto {
 
     @JsonProperty("id")
     private String id;
@@ -24,6 +21,6 @@ public class CreatedTrelloCard {
     @JsonProperty("badges")
     private TrelloBadgesDto badges;
 
-    public CreatedTrelloCard(String number, String testTask, String url) {
+    public CreatedTrelloCardDto(String number, String testTask, String url) {
     }
 }

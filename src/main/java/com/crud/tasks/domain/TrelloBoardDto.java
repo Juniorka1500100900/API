@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TrelloBoardDto {
-
     @JsonProperty("id")
     private String id;
 
@@ -21,6 +20,12 @@ public class TrelloBoardDto {
     @JsonProperty("lists")
     private List<TrelloListDto> lists;
 
-    public TrelloBoardDto(String testId, String testBoard, ArrayList<Object> objects) {
+    public TrelloBoardDto(String id, String name, List<TrelloListDto> lists) {
+        this.id = id;
+        this.name = name;
+        this.lists = lists;
+    }
+
+    public TrelloBoardDto(String testId, String kodilla, ArrayList<Object> objects) {
     }
 }
