@@ -24,6 +24,16 @@ public class MailCreatorService {
         context.setVariable("company_details", adminConfig.getCompanyDetails());
         context.setVariable("welcome_message", "Witaj na stronie!");
         context.setVariable("goodbye_message", "Do zobaczenia!");
+        context.setVariable("show_button", false);
+        context.setVariable("is_friend", true);
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
+    public String buildDailyTaskSummaryEmail(String dailyTaskSummaryMessage, int tasksAvailable) {
+        Context context = new Context();
+        context.setVariable("daily_task_summary_message", dailyTaskSummaryMessage);
+        context.setVariable("tasks_available", tasksAvailable);
+        context.setVariable("company_details", adminConfig.getCompanyDetails());
+        return templateEngine.process("mail/daily-task-summary-mail", context);
+    }
+
 }
