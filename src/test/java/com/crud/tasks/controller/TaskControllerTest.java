@@ -2,6 +2,7 @@ package com.crud.tasks.controller;
 
 import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
+import com.crud.tasks.domain.TrelloCardDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
 import com.google.gson.Gson;
@@ -10,12 +11,15 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringJUnitWebConfig
@@ -28,8 +32,9 @@ class TaskControllerTest {
     @MockBean
     private DbService dbService;
 
-    @MockBean
+    @SpyBean
     private TaskMapper taskMapper;
+
 
     @Test
     void shouldReturnEmptyTaskList() throws Exception {
@@ -52,7 +57,7 @@ class TaskControllerTest {
         List<TaskDto> taskDtos = List.of(new TaskDto(1L, "Test Task", "Test Content"));
 
         when(dbService.getAllTasks()).thenReturn(tasks);
-        when(taskMapper.mapToTaskDtoList(tasks)).thenReturn(taskDtos);
+
 
         // When & Then
         mockMvc
@@ -85,8 +90,7 @@ class TaskControllerTest {
         TaskDto taskDto = new TaskDto(1L, "Updated Task", "Updated Content");
         Task task = new Task(1L, "Updated Task", "Updated Content");
 
-        when(taskMapper.mapToTask(taskDto)).thenReturn(task);
-        when(dbService.saveTask(task)).thenReturn(task);
+        when(dbService.saveTask(any(Task.class))).thenReturn(task);
 
         Gson gson = new Gson();
         String jsonContent = gson.toJson(taskDto);
@@ -110,7 +114,6 @@ class TaskControllerTest {
         TaskDto taskDto = new TaskDto(null, "New Task", "New Content");
         Task task = new Task(null, "New Task", "New Content");
 
-        when(taskMapper.mapToTask(taskDto)).thenReturn(task);
         when(dbService.saveTask(task)).thenReturn(task);
 
         Gson gson = new Gson();
